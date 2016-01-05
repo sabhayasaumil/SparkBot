@@ -5,8 +5,11 @@
  */
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +32,9 @@ public class DiscordBot implements EventListener{
     
     private DiscordAPI api;
     String version = "1.0.0";
+    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    Date date = new Date();
+ //2014/08/06 15:59:48
     
     public DiscordBot()
     {
@@ -90,15 +96,16 @@ public class DiscordBot implements EventListener{
                     event.getGroup().sendMessage(reply);
 
         }
-        else if(message.toLowerCase().equals("!varsion"))
+        else if(message.toLowerCase().equals("!version"))
         {
                     MessageBuilder mb = new MessageBuilder();
                     mb.addUserTag(event.getUser(), event.getGroup());
-                    mb.addString(" Y0. Veriosn is " + version);
+                    mb.addString(" Y0. Version is " + version + " Running from " + dateFormat.format(date));
                     Message reply = mb.build(api);
                     event.getGroup().sendMessage(reply);
-
         }
+
+        
     }
     
     
