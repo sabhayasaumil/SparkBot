@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package discordbot;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,14 +32,15 @@ public class DiscordBot implements EventListener{
     {
         api = new DiscordBuilder().build();
         api.getEventManager().registerListener(this);
+        
     }
     
-    public void waffle(UserChatEvent event)
+    public void raffle(UserChatEvent event)
     {
         String message = event.getMsg().getMessage();
         String user = event.getUser().getUser().getUsername();
         
-        if(message.toLowerCase().equals("!waffle"))
+        if(message.toLowerCase().equals("!raffle"))
         if(user.toLowerCase().equals("falcon") || user.toLowerCase().equals("samthehawk"))
         {        
             
@@ -49,7 +50,7 @@ public class DiscordBot implements EventListener{
                 ArrayList<GroupUser> win = new ArrayList<GroupUser>();
                 for(GroupUser gu:GU)
                 {
-                    System.out.println(gu.getUser().getUsername()+" status " + gu.getUser().getOnlineStatus());
+                    //System.out.println(gu.getUser().getUsername()+" status " + gu.getUser().getOnlineStatus());
                     if(gu.getUser().getOnlineStatus() != null)
                     {
                         if(!gu.getUser().getUsername().toLowerCase().contains("bot"))
@@ -61,7 +62,7 @@ public class DiscordBot implements EventListener{
                 
                 MessageBuilder mb = new MessageBuilder();
                 mb.addUserTag(win.get(0).getUser(), event.getGroup());
-                mb.addString(": is the winner for this waffle");
+                mb.addString(": is the winner for this raffle");
                 Message reply = mb.build(api);
                 event.getGroup().sendMessage(reply);
                 
