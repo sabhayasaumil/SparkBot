@@ -28,6 +28,8 @@ import me.itsghost.jdiscord.talkable.GroupUser;
 public class DiscordBot implements EventListener{
     
     private DiscordAPI api;
+    String version = "1.0.0";
+    
     public DiscordBot()
     {
         api = new DiscordBuilder().build();
@@ -84,6 +86,15 @@ public class DiscordBot implements EventListener{
                     MessageBuilder mb = new MessageBuilder();
                     mb.addUserTag(event.getUser(), event.getGroup());
                     mb.addString(" Yo, hey franz Deployment Successful.");
+                    Message reply = mb.build(api);
+                    event.getGroup().sendMessage(reply);
+
+        }
+        else if(message.toLowerCase().equals("!varsion"))
+        {
+                    MessageBuilder mb = new MessageBuilder();
+                    mb.addUserTag(event.getUser(), event.getGroup());
+                    mb.addString(" Y0. Veriosn is " + version);
                     Message reply = mb.build(api);
                     event.getGroup().sendMessage(reply);
 
