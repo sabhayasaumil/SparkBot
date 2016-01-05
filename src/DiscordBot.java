@@ -41,41 +41,52 @@ public class DiscordBot implements EventListener{
         String user = event.getUser().getUser().getUsername();
         
         if(message.toLowerCase().equals("!raffle"))
-        if(user.toLowerCase().equals("falcon") || user.toLowerCase().equals("samthehawk"))
-        {        
-            
-            {
-                Group group = event.getGroup();
-                List<GroupUser> GU = event.getServer().getConnectedClients();
-                ArrayList<GroupUser> win = new ArrayList<GroupUser>();
-                for(GroupUser gu:GU)
+        {
+            if(user.toLowerCase().equals("falcon") || user.toLowerCase().equals("samthehawk"))
+            {        
+
                 {
-                    //System.out.println(gu.getUser().getUsername()+" status " + gu.getUser().getOnlineStatus());
-                    if(gu.getUser().getOnlineStatus() != null)
+                    Group group = event.getGroup();
+                    List<GroupUser> GU = event.getServer().getConnectedClients();
+                    ArrayList<GroupUser> win = new ArrayList<GroupUser>();
+                    for(GroupUser gu:GU)
                     {
-                        if(!gu.getUser().getUsername().toLowerCase().contains("bot"))
-                            win.add(gu);
+                        //System.out.println(gu.getUser().getUsername()+" status " + gu.getUser().getOnlineStatus());
+                        if(gu.getUser().getOnlineStatus() != null)
+                        {
+                            if(!gu.getUser().getUsername().toLowerCase().contains("bot"))
+                                win.add(gu);
+                        }
+
                     }
+                    Collections.shuffle(win);
+
+                    MessageBuilder mb = new MessageBuilder();
+                    mb.addUserTag(win.get(0).getUser(), event.getGroup());
+                    mb.addString(": is the winner for this raffle");
+                    Message reply = mb.build(api);
+                    event.getGroup().sendMessage(reply);
 
                 }
-                Collections.shuffle(win);
-                
-                MessageBuilder mb = new MessageBuilder();
-                mb.addUserTag(win.get(0).getUser(), event.getGroup());
-                mb.addString(": is the winner for this raffle");
-                Message reply = mb.build(api);
-                event.getGroup().sendMessage(reply);
-                
+            }
+            else
+            {
+                    MessageBuilder mb = new MessageBuilder();
+                    mb.addUserTag(event.getUser(), event.getGroup());
+                    mb.addString(" Yo only admin could do Raffle.");
+                    Message reply = mb.build(api);
+                    event.getGroup().sendMessage(reply);
+
             }
         }
-        else
+        else if(message.toLowerCase().equals("!update"))
         {
-                MessageBuilder mb = new MessageBuilder();
-                mb.addUserTag(event.getUser(), event.getGroup());
-                mb.addString(" Yo only admin could do Waffle.");
-                Message reply = mb.build(api);
-                event.getGroup().sendMessage(reply);
-        
+                    MessageBuilder mb = new MessageBuilder();
+                    mb.addUserTag(event.getUser(), event.getGroup());
+                    mb.addString(" Yo, Deployment Successful.");
+                    Message reply = mb.build(api);
+                    event.getGroup().sendMessage(reply);
+
         }
     }
     
