@@ -83,7 +83,7 @@ public class DiscordBot implements EventListener{
         {
                     MessageBuilder mb = new MessageBuilder();
                     mb.addUserTag(event.getUser(), event.getGroup());
-                    mb.addString(" Yo, Deployment Successful.");
+                    mb.addString(" Yo, hey franz Deployment Successful.");
                     Message reply = mb.build(api);
                     event.getGroup().sendMessage(reply);
 
