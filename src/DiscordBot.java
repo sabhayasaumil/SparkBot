@@ -36,9 +36,8 @@ import me.itsghost.jdiscord.talkable.GroupUser;
 public class DiscordBot implements EventListener{
     
     private DiscordAPI api;
-    String version = "1.0.1";
-    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    Date date = new Date();
+    Worker worker = new Worker();
+    
  //2014/08/06 15:59:48
     
     public DiscordBot()
@@ -53,80 +52,22 @@ public class DiscordBot implements EventListener{
         String message = event.getMsg().getMessage();
         String user = event.getUser().getUser().getUsername();
         
-        if(message.toLowerCase().equals("!raffle"))
-        {
-            if(user.toLowerCase().equals("falcon") || user.toLowerCase().equals("samthehawk"))
-            {        
-
-                {
-                    Group group = event.getGroup();
-                    List<GroupUser> GU = event.getServer().getConnectedClients();
-                    ArrayList<GroupUser> win = new ArrayList<GroupUser>();
-                    for(GroupUser gu:GU)
-                    {
-                        //System.out.println(gu.getUser().getUsername()+" status " + gu.getUser().getOnlineStatus());
-                        if(gu.getUser().getOnlineStatus() != null)
-                        {
-                            if(!gu.getUser().getUsername().toLowerCase().contains("bot"))
-                                win.add(gu);
-                        }
-
-                    }
-                    Collections.shuffle(win);
-
-                    MessageBuilder mb = new MessageBuilder();
-                    mb.addUserTag(win.get(0).getUser(), event.getGroup());
-                    mb.addString(": is the winner for this raffle");
-                    Message reply = mb.build(api);
-                    event.getGroup().sendMessage(reply);
-
-                }
-            }
-            else
-            {
-                    MessageBuilder mb = new MessageBuilder();
-                    mb.addUserTag(event.getUser(), event.getGroup());
-                    mb.addString(" Yo only admin could do Raffle.");
-                    Message reply = mb.build(api);
-                    event.getGroup().sendMessage(reply);
-
-            }
-        }
-        else if(message.toLowerCase().equals("!update"))
-        {
-                    MessageBuilder mb = new MessageBuilder();
-                    mb.addUserTag(event.getUser(), event.getGroup());
-                    mb.addString(" Yo, hey franz Deployment Successful.");
-                    Message reply = mb.build(api);
-                    event.getGroup().sendMessage(reply);
-
-        }
-        else if(message.toLowerCase().equals("!version"))
-        {
-                    MessageBuilder mb = new MessageBuilder();
-                    mb.addUserTag(event.getUser(), event.getGroup());
-                    mb.addString(" Y0. Version is " + version + " Running from " + dateFormat.format(date));
-                    Message reply = mb.build(api);
-                    event.getGroup().sendMessage(reply);
-        }
-
+        if(message.charAt(0) != '!')
+            return;
+        MessageBuilder mb = worker.Process(message, event);
+        if(mb == null)
+            return;
+        Message reply = mb.build(api);
+        event.getGroup().sendMessage(reply);
         
     }
     
-    
-    
-    public void connect(String username,String password)
+     public void connect(String username,String password)
     {
         try 
         {
             api.login(username,password);
-            /*List<GroupUser> GU = api.getServerById("133983214636105728").getConnectedClients();
-            for(GroupUser gu:GU)
-            {
-                System.out.println(gu.getUser().getUsername().toString());
-            }
-            */
-            
+
         }
         catch (BadUsernamePasswordException ex) 
         {
