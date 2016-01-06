@@ -5,6 +5,10 @@
  */
 
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -139,11 +143,16 @@ public class DiscordBot implements EventListener{
 
     public static void main(String[] args) 
     {
-        DiscordBot myBot = new DiscordBot();
-        Scanner sc = new Scanner("/var/www/bot/authenticate.txt");
-        String username = sc.nextLine();
-        String password = sc.nextLine();
-        myBot.connect(username,password);
+        BufferedReader br = null;
+        try {
+                    DiscordBot myBot = new DiscordBot();
+                    br = new BufferedReader(new FileReader("/var/www/bot/authenticate.txt"));
+                    String username = br.readLine();
+                    String password = br.readLine();
+                    myBot.connect(username,password);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         
     }
     
