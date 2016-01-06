@@ -29,6 +29,7 @@ import me.itsghost.jdiscord.message.MessageBuilder;
 import me.itsghost.jdiscord.talkable.Group;
 import me.itsghost.jdiscord.talkable.GroupUser;
 
+
 /**
  *
  * @author Saumil
@@ -36,7 +37,7 @@ import me.itsghost.jdiscord.talkable.GroupUser;
 public class DiscordBot implements EventListener{
     
     private DiscordAPI api;
-    Worker worker = new Worker();
+    Worker worker;
     
  //2014/08/06 15:59:48
     
@@ -44,7 +45,7 @@ public class DiscordBot implements EventListener{
     {
         api = new DiscordBuilder().build();
         api.getEventManager().registerListener(this);
-        
+        worker = new Worker();
     }
     
     public void raffle(UserChatEvent event)
