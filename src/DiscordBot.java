@@ -140,9 +140,9 @@ public class DiscordBot implements EventListener{
     public static void main(String[] args) 
     {
         DiscordBot myBot = new DiscordBot();
-        Scanner sc = new Scanner("/var/www/bot/authenticate");
-        String username = sc.next();
-        String password = sc.next();
+        Scanner sc = new Scanner("/var/www/bot/authenticate.txt");
+        String username = sc.nextLine();
+        String password = sc.nextLine();
         myBot.connect(username,password);
         
     }
