@@ -34,7 +34,7 @@ import me.itsghost.jdiscord.talkable.GroupUser;
  *
  * @author Saumil
  */
-public class DiscordBot implements EventListener{
+class DiscordBot implements EventListener{
     
     private DiscordAPI api;
     Worker worker;
