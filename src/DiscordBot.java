@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import me.itsghost.jdiscord.DiscordAPI;
@@ -31,7 +32,7 @@ import me.itsghost.jdiscord.talkable.GroupUser;
 public class DiscordBot implements EventListener{
     
     private DiscordAPI api;
-    String version = "1.0.0";
+    String version = "1.0.1";
     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     Date date = new Date();
  //2014/08/06 15:59:48
@@ -110,11 +111,11 @@ public class DiscordBot implements EventListener{
     
     
     
-    public void connect()
+    public void connect(String username,String password)
     {
         try 
         {
-            api.login("bobbyleone91@gmail.com","Bobby_1991");
+            api.login(username,password);
             /*List<GroupUser> GU = api.getServerById("133983214636105728").getConnectedClients();
             for(GroupUser gu:GU)
             {
@@ -139,7 +140,10 @@ public class DiscordBot implements EventListener{
     public static void main(String[] args) 
     {
         DiscordBot myBot = new DiscordBot();
-        myBot.connect();
+        Scanner sc = new Scanner("/var/www/bot/authenticate");
+        String username = sc.next();
+        String password = sc.next();
+        myBot.connect(username,password);
         
     }
     
