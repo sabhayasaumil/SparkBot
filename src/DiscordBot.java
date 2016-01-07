@@ -94,6 +94,8 @@ class DiscordBot implements EventListener{
                     String username = br.readLine();
                     String password = br.readLine();
                     myBot.connect(username,password);
+                    
+                    
         } catch (Exception ex) {
             ex.printStackTrace();
         }

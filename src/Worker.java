@@ -49,6 +49,8 @@ public class Worker {
             return this.Update(event);
         else if(function.equals("!gif") && func.length > 1)
             return this.gif(event,func[1]);
+        else if(function.matches("(!img)|(!image)") && func.length > 1)
+            return this.image(event,func[1]);
         return null;
     
     }
@@ -107,10 +109,45 @@ public class Worker {
     public MessageBuilder gif(UserChatEvent event,String query)
     {
                 MessageBuilder mb = new MessageBuilder();
+                String response = connection("http://giphy.com/search/"+query.trim().replaceAll("[ ]+","+"));
+                if(response == null)
+                    return null;
+                
+                String[] part = response.toString().split("data-id=\"");
+                        if(part.length == 1)
+                        {
+                            return null;
+                        }
                     
-                try
+                String urle[] = part[1].split("\"");
+                mb.addString("http://media.giphy.com/media/"+urle[0]+"/giphy.gif");
+
+                return mb;
+    }
+    
+    public MessageBuilder image(UserChatEvent event,String query)
+    {
+                MessageBuilder mb = new MessageBuilder();
+                String response = connection("");
+                if(response == null)
+                    return null;
+                
+                String[] part = response.toString().split("");
+                        if(part.length == 1)
+                        {
+                            return null;
+                        }
+                    
+
+                return null;
+    }
+    
+    
+    public String connection(String urlString)
+    {
+        try
                 {
-                    URL url = new URL("http://giphy.com/search/"+query.trim().replaceAll("[ ]+","+"));
+                    URL url = new URL(urlString);
                     HttpURLConnection connection = (HttpURLConnection)url.openConnection();
                     InputStream is = connection.getInputStream();
                     BufferedReader rd = new BufferedReader(new InputStreamReader(is));
@@ -123,25 +160,15 @@ public class Worker {
                     }
                     
                     rd.close();
-
-                    String[] part1 = response.toString().split("<div class=\"hoverable-gif\">");
-                        if(part1.length == 1)
-                        {
-                            return null;
-                        }
-                    
-                    String urlnear[] = part1[1].split("data-id=\"");
-                    String urle[] = urlnear[1].split("\"");
-                    mb.addString("http://media.giphy.com/media/"+urle[0]+"/giphy.gif");
-                    
-                    return mb;
+                    return response.toString();
                 }
                 catch (Exception ex)
                 {
                     ex.printStackTrace();
                 }
-            return null;
-    }
     
+        
+        return null;
+    }
 
 }
