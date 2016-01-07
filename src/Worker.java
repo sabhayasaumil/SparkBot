@@ -1,6 +1,14 @@
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import me.itsghost.jdiscord.events.UserChatEvent;
 import me.itsghost.jdiscord.message.Message;
 import me.itsghost.jdiscord.message.MessageBuilder;
@@ -39,6 +47,8 @@ public class Worker {
             return this.Version(event);
         else if(function.equals("!update"))
             return this.Update(event);
+        else if(function.equals("!gif") && func.length > 1)
+            return this.gif(event,func[1]);
         return null;
     
     }
@@ -72,6 +82,7 @@ public class Worker {
             mb.addString(": is the winner for this raffle");
             return mb;
     }
+    
     public MessageBuilder Version(UserChatEvent event)
     {
                     MessageBuilder mb = new MessageBuilder();
@@ -79,11 +90,13 @@ public class Worker {
                     mb.addString(" Y0. Version is " + version + " Running from " + dateFormat.format(date));
                     return mb;
     }
+    
     public boolean isAdmin(UserChatEvent event)
     {
         String user = event.getUser().getUser().getUsername();
         return user.toLowerCase().equals("falcon") || user.toLowerCase().equals("samthehawk");
     }
+    
     public MessageBuilder Update(UserChatEvent event)
     {
                     MessageBuilder mb = new MessageBuilder();
@@ -91,5 +104,44 @@ public class Worker {
                     mb.addString(" Yo, hey franz Deployment Successful.");
                     return mb;
     }
+    public MessageBuilder gif(UserChatEvent event,String query)
+    {
+                MessageBuilder mb = new MessageBuilder();
+                    
+                try
+                {
+                    URL url = new URL("http://giphy.com/search/"+query.trim().replaceAll("[ ]+","+"));
+                    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+                    InputStream is = connection.getInputStream();
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    StringBuilder response = new StringBuilder(); // or StringBuffer if not Java 5+ 
+                    String line;
+
+                    while((line = rd.readLine()) != null) {
+                      response.append(line);
+                      response.append('\r');
+                    }
+                    
+                    rd.close();
+
+                    String[] part1 = response.toString().split("<div class=\"hoverable-gif\">");
+                        if(part1.length == 1)
+                        {
+                            return null;
+                        }
+                    
+                    String urlnear[] = part1[1].split("data-id=\"");
+                    String urle[] = urlnear[1].split("\"");
+                    mb.addString("http://media.giphy.com/media/"+urle[0]+"/giphy.gif");
+                    
+                    return mb;
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+            return null;
+    }
+    
 
 }

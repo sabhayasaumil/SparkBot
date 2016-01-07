@@ -55,9 +55,11 @@ class DiscordBot implements EventListener{
         
         if(message.charAt(0) != '!')
             return;
+        
         MessageBuilder mb = worker.Process(message, event);
         if(mb == null)
             return;
+        
         Message reply = mb.build(api);
         event.getGroup().sendMessage(reply);
         
