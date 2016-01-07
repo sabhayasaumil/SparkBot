@@ -147,8 +147,8 @@ public class Worker {
     public MessageBuilder video(UserChatEvent event,String query)
     {
                 MessageBuilder mb = new MessageBuilder();
-                String response = connection("http://sabhayasaumil.com/vid/getvid.php?q="+query.trim().replaceAll("[ ]+","+"));
-                if(response.trim() == null)
+                String response = connection("http://sabhayasaumil.com/vid/getvid.php?q="+query.trim().replaceAll("[ ]+","+")).trim();
+                if(response.length() > 3 )
                     return null;
                 
                 mb.addString("https://www.youtube.com/watch?v="+response.trim());
