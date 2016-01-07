@@ -151,7 +151,7 @@ public class Worker {
                 if(response.trim() == null)
                     return null;
                 
-                mb.addString("https://www.youtube.com/v/"+response);
+                mb.addString("https://www.youtube.com/watch?v="+response.trim());
 
                 return mb;
                 
