@@ -51,6 +51,8 @@ public class Worker {
             return this.gif(event,func[1]);
         else if(function.matches("(!img)|(!image)") && func.length > 1)
             return this.image(event,func[1]);
+        else if(function.matches("(!vid)|(!video)") && func.length > 1)
+            return this.video(event,func[1]);
         return null;
     
     }
@@ -142,6 +144,19 @@ public class Worker {
                 return null;
     }
     
+    public MessageBuilder video(UserChatEvent event,String query)
+    {
+                MessageBuilder mb = new MessageBuilder();
+                String response = connection("http://sabhayasaumil.com/vid/getvid.php?q="+query.trim().replaceAll("[ ]+","+"));
+                if(response.trim() == null)
+                    return null;
+                
+                mb.addString("https://www.youtube.com/v/"+response);
+
+                return mb;
+                
+               
+    }
     
     public String connection(String urlString)
     {
