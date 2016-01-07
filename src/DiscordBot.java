@@ -48,7 +48,7 @@ class DiscordBot implements EventListener{
         worker = new Worker();
     }
     
-    public void raffle(UserChatEvent event)
+    public void MessageEvent(UserChatEvent event)
     {
         String message = event.getMsg().getMessage();
         String user = event.getUser().getUser().getUsername();
