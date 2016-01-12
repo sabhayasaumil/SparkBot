@@ -130,7 +130,7 @@ public class Worker {
     public MessageBuilder image(UserChatEvent event,String query)
     {
                 MessageBuilder mb = new MessageBuilder();
-                String response = connection("");
+                String response = connection("http://imgur.com/search/score/all?q_tags=" + query.trim().replaceAll("[ ]+",","));
                 if(response == null)
                     return null;
                 
